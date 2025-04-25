@@ -126,10 +126,13 @@ void assert_failed(uint8_t *file, uint32_t line)
 ## Output  :
 
 ### LED OFF
-![led off](https://github.com/user-attachments/assets/fc9ee5c6-f96f-461b-8d25-067de4c3686e)
+![led off mod](https://github.com/user-attachments/assets/0354cf2f-6af4-4664-87b3-a6db21233392)
+
 
 ### LED ON
-![led on](https://github.com/user-attachments/assets/a75e37dd-d7cb-4ea9-a0bf-fbce93b62735)
+![led on mod](https://github.com/user-attachments/assets/8de85723-43dd-452f-95b9-50788a98c61e)
+
+
 
 ## Result :
 
