@@ -1,4 +1,7 @@
 # EXPERIMENT--02-INTEFACING-A-DIGITAL-INPUT-TO-ARM-DEVELOPMENT-BOARD
+Name : VIJAY R
+
+Register Number : 212223240178
 ## Aim: To Interface a Digital Input  (userpush button  ) to ARM   development board and write a  program to obtain  the data and flash the led  
 ## Components required: STM32 CUBE IDE, ARM IOT development board,  STM programmer tool.
 ## Theory 
@@ -18,6 +21,7 @@ The full form of an ARM is an advanced reduced instruction set computer (RISC) m
 ![image](https://user-images.githubusercontent.com/36288975/226189280-ed5dcf1d-dd8d-43ae-815d-491085f4863b.png)
 
 4.select the program name 
+
 ![image](https://user-images.githubusercontent.com/36288975/226189316-09832a30-4d1a-4d4f-b8ad-2dc28f137711.png)
 
 
@@ -53,48 +57,103 @@ The full form of an ARM is an advanced reduced instruction set computer (RISC) m
 ## STM 32 CUBE PROGRAM :
 ```
 #include "main.h"
-#include <stdbool.h>
-void push_button();
-bool button_status;
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
 int main(void)
- 
+{
+  HAL_Init();
+  SystemClock_Config();
+  MX_GPIO_Init();
+  while (1)
   {
-   HAL-Init();
-   System clock-config();
-   MX_GPIO-Init();
-   while(1){
-	  push_button();
-   }
+    
+	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	  HAL_Delay(2000);
+	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	  HAL_Delay(2000);
+   
+  }
+ 
+}
+
+
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+  
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
   }
   
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 
-void push_button(){
-	button_status=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_13);
-	if(button_status==1)
-	{
-		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_SET);
-		HAL_Delay(500);
-		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_RESET);
-		HAL_Delay(500);
-	}
-	else
-	{
-		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_RESET);
-		
-	}
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+}
+
+
+void Error_Handler(void)
+{
+  __disable_irq();
+  while (1)
+  {
+  }
+}
+
+#ifdef  USE_FULL_ASSERT
+void assert_failed(uint8_t *file, uint32_t line)
+{
+endif 
+
+
+
+
 ```
 
-
-
 ## Output  :
-![424301152-03352b7f-05f7-425d-93f3-2e9bd38eefb2](https://github.com/user-attachments/assets/5d9ff4c1-211a-4124-935b-5ed0f135ec0e)
 
-![424301214-9b703945-8fba-4d0f-b618-17071cefdbab](https://github.com/user-attachments/assets/03d82e18-8c0a-4ec2-857b-b57180e20754)
 
-## layout of the circuit 
+ON:
+
+![WhatsApp Image 2025-04-25 at 14 19 00_2b04591f](https://github.com/user-attachments/assets/a5105416-2dad-47cc-b4f2-5cd8b67de858)
+
+OFF:
+![WhatsApp Image 2025-04-25 at 14 19 01_f4467298](https://github.com/user-attachments/assets/eeaca1c5-9243-45fe-a01f-4840a12647c6)
+
  
- ![424301151-d0b5ec4f-d772-42f3-b503-0f67241105cb](https://github.com/user-attachments/assets/7c369105-ecd8-4436-ab54-ab7a2fdffe8c)
-
- ## Result :
+## Result :
 Interfacing a digital Input (Pushbutton ) with ARM microcontroller based IOT development is executed and the results are verified.
+
